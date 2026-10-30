@@ -1,106 +1,140 @@
-# SRDT Multimodal AI Chatbot
+# 🤖 Multimodal AI Chatbot
 
-A full-stack multimodal chatbot MVP with a Streamlit interface and FastAPI backend. It supports conversational AI, image understanding, document-based retrieval (RAG), speech output, image generation/upscaling, web-search grounding, and provider fallback.
+A Python-based Multimodal AI Chatbot that allows users to interact with an AI system through text and different types of media. The project aims to provide an interactive and user-friendly chatbot experience by combining multiple input formats in a single application.
 
-## Technology
+## 📌 Project Overview
 
-- **Frontend:** Streamlit
-- **Backend:** FastAPI + Uvicorn
-- **Persistence:** SQLAlchemy; SQLite for local development, PostgreSQL/pgvector option
-- **AI providers:** Google Gemini, xAI Grok, optional Groq; deterministic mock provider for offline demos/tests
-- **Document processing:** PDF, DOCX, TXT/Markdown parsing and chunking
-- **Multimodal services:** vision, text-to-speech, image generation and image enhancement
+The **Multimodal AI Chatbot** is designed to understand and process different types of user inputs, such as text and images (depending on the implemented features). It provides an easy-to-use interface where users can communicate with the AI and receive intelligent responses.
 
-## Project layout
+This project demonstrates the practical use of Python, Artificial Intelligence, and multimodal interaction.
+
+## ✨ Features
+
+- 💬 Text-based conversations with AI.
+- 🖼️ Image input and processing (if enabled).
+- 🤖 AI-powered response generation.
+- 🎨 Simple and user-friendly interface.
+- 🐍 Developed using Python.
+- 🔄 Interactive chatbot experience.
+- 📂 Organized frontend and backend structure.
+
+## 🛠️ Technologies Used
+
+- **Python** – Core programming language.
+- **Streamlit / Flask** – User interface or web framework (depending on implementation).
+- **AI Model / API** – For generating intelligent responses.
+- **Pillow / Image Processing Libraries** – For image handling, if implemented.
+
+## 📁 Project Structure
 
 ```text
-SRDT-MM-Chatbot-main/
-├── backend/
-│   ├── app/
-│   │   ├── api/          # Chat, models, documents, multimodal endpoints
-│   │   ├── core/         # Environment-based configuration
-│   │   ├── db/           # SQLAlchemy sessions and vector adapter
-│   │   ├── models/       # Database models
-│   │   ├── schemas/      # Request/response schemas
-│   │   ├── services/     # Providers, RAG, search, audio, vision, images
-│   │   └── utils/
-│   ├── tests/
-│   └── requirements.txt
-├── frontend/             # Streamlit UI and API client
-├── scripts/              # Database initialization SQL and test harness
-├── .env.example
-├── PROJECT_REPORT.pdf
-├── PROJECT_REPORT.md
-└── automation_test_report.json
+Multimodal-AI-Chatbot/
+│
+├── app.py                 # Main application file
+├── backend/               # Backend logic
+├── frontend/              # User interface
+├── static/                # Static resources
+├── uploads/               # Uploaded media files
+├── requirements.txt       # Python dependencies
+├── .env.example           # Example environment variables
+└── README.md              # Project documentation
 ```
 
-## Requirements
+*Note: The folder structure may vary depending on the project implementation.*
 
-- Python 3.10 or newer (Python 3.13 was used in the supplied verification notes).
-- Internet connection for cloud providers, web search, and online image generation.
-- API keys are optional for local mock-mode demonstrations.
+## ⚙️ Installation and Setup
 
-## Setup (Windows PowerShell)
+### 1. Clone the Repository
 
-Run commands from the project root:
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -r backend/requirements.txt -r frontend/requirements.txt
-Copy-Item .env.example .env
+```bash
+git clone https://github.com/your-username/your-repository.git
 ```
 
-Edit `.env` and add the provider keys you intend to use. Leave keys blank to use the mock provider for supported flows. Do not commit `.env` or share API keys.
+### 2. Open the Project Folder
 
-## Run
-
-Open two terminals, with the virtual environment activated in both.
-
-**Terminal 1 — API:**
-
-```powershell
-python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 --reload
+```bash
+cd Multimodal-AI-Chatbot
 ```
 
-**Terminal 2 — UI:**
+### 3. Create a Virtual Environment
 
-```powershell
-python -m streamlit run frontend/app.py
+```bash
+python -m venv venv
 ```
 
-Open `http://localhost:8501`. API documentation is at `http://127.0.0.1:8000/docs`; health status is at `http://127.0.0.1:8000/health`.
+Activate it:
 
-## Configuration
-
-Important variables in `.env.example`:
-
-| Variable | Purpose |
-|---|---|
-| `GEMINI_API_KEY` | Google Gemini access |
-| `GROK_API_KEY` | xAI access |
-| `GROQ_API_KEY` | Groq-hosted model access |
-| `DEFAULT_MODEL` | Preferred provider/model or `auto` |
-| `DATABASE_URL` | SQLite default or PostgreSQL connection string |
-| `CHUNK_SIZE`, `CHUNK_OVERLAP` | RAG document chunking |
-| `TOP_K_RETRIEVAL` | Number of relevant chunks to retrieve |
-| `BACKEND_API_URL` | Backend URL used by Streamlit |
-
-## Tests and verification
-
-Install dependencies first, then run:
-
-```powershell
-python -m pytest -q
+**Windows:**
+```bash
+venv\Scripts\activate
 ```
 
-The repository includes unit/integration tests under `backend/tests/` and a recorded functional run in `automation_test_report.json`. See `PROJECT_REPORT.pdf` and `PROJECT_REPORT.md` for the detailed scope, recorded results, limitations, and the independent verification attempt performed while preparing this package.
+**Linux / macOS:**
+```bash
+source venv/bin/activate
+```
 
-## Important notes
+### 4. Install Dependencies
 
-- The recorded automation report contains 16 checks: 14 marked `WORKING` and 2 marked `DEGRADED`. The degraded checks are DuckDuckGo web search (zero results/rate limiting during that run) and the xAI Grok cloud call (HTTP 403/quota or balance issue). This does not mean every environment will reproduce those results.
-- A separate pytest attempt during package preparation could not collect tests because the current execution environment did not have `duckduckgo_search` installed. Python source compilation succeeded. This is reported transparently; it is not presented as a passing test run.
-- Image enlargement/sharpening uses conventional image-processing operations. It can improve apparent clarity, but it is not equivalent to a learned super-resolution model and cannot guarantee recovery of real missing details.
-- Emotional-support features are not medical care, diagnosis, or crisis counselling. For urgent help in India, contact local emergency services (112) or Tele-MANAS (14416).
-- Treat uploaded documents and API keys as private. Configure access controls and production-grade secrets management before deployment.
+```bash
+pip install -r requirements.txt
+```
+
+### 5. Configure Environment Variables
+
+If your project uses an AI API, create a `.env` file and add your API key:
+
+```env
+API_KEY=your_api_key_here
+```
+
+Never upload your actual API key to GitHub.
+
+### 6. Run the Application
+
+Use the appropriate command for your project:
+
+```bash
+python app.py
+```
+
+## 🚀 How to Use
+
+1. Start the application.
+2. Open the chatbot interface.
+3. Enter your message in the chat input.
+4. Upload an image if image processing is supported.
+5. Send your input.
+6. View the AI-generated response.
+
+## 🎯 Project Objectives
+
+- Understand the fundamentals of multimodal AI.
+- Develop practical Python programming skills.
+- Integrate AI capabilities into an interactive application.
+- Learn frontend and backend development.
+- Build a beginner-friendly AI chatbot project.
+
+## 🔮 Future Enhancements
+
+- Voice input and speech recognition.
+- Text-to-speech responses.
+- PDF document understanding.
+- Improved image recognition.
+- Chat history and conversation management.
+- Integration with advanced AI models.
+
+## 👨‍💻 Developer
+
+**Project Name:** Multimodal AI Chatbot  
+**Category:** Artificial Intelligence / Machine Learning  
+**Language:** Python  
+**Project Type:** Educational / Academic Project
+
+## 📜 License
+
+This project is intended for educational and learning purposes. You can modify and improve it according to your requirements.
+
+---
+
+⭐ If you find this project useful, consider giving the repository a star!
